@@ -16,6 +16,8 @@ window.addEventListener('resize', function ()
 
 controls = new THREE.OrbitControls(camera, renderer.domElement);
 
+var groupClickables = new THREE.Group();
+
 //center row, center column box
 {
     var LeftGeometry = new THREE.BoxGeometry(.3, 2, .5);
@@ -254,9 +256,140 @@ controls = new THREE.OrbitControls(camera, renderer.domElement);
     topCube4.position.x += (1 + LeftCube4.position.x);
 }
 
+//Center, center click event cube
+{
+    var geometry = new THREE.BoxGeometry(1, 1, .5);
+    var material = new THREE.MeshToonMaterial();
+    var cube = new THREE.Mesh(geometry, material);
+    cube.position.x = 0;
+    cube.position.y = 0;
+    groupClickables.add(cube);
+}
+//Right, center click event cube
+{
+    var geometry = new THREE.BoxGeometry(1, 1, .5);
+    var material = new THREE.MeshToonMaterial();
+    var cube = new THREE.Mesh(geometry, material);
+    cube.position.x += 2.5;
+    cube.position.y = 0;
+    groupClickables.add(cube);
+}
+//left, center click event cube
+{
+    var geometry = new THREE.BoxGeometry(1, 1, .5);
+    var material = new THREE.MeshToonMaterial();
+    var cube = new THREE.Mesh(geometry, material);
+    cube.position.x -= 2.5;
+    cube.position.y = 0;
+    groupClickables.add(cube);
+}
+//Top, center click event cube
+{
+    var geometry = new THREE.BoxGeometry(1, 1, .5);
+    var material = new THREE.MeshToonMaterial();
+    var cube = new THREE.Mesh(geometry, material);
+    cube.position.x = 0;
+    cube.position.y += 2.3;
+    groupClickables.add(cube);
+}
+//Top, right click event cube
+{
+    var geometry = new THREE.BoxGeometry(1, 1, .5);
+    var material = new THREE.MeshToonMaterial();
+    var cube = new THREE.Mesh(geometry, material);
+    cube.position.x += 2.5;
+    cube.position.y += 2.3;
+    groupClickables.add(cube);
+}
+//Top, left click event cube
+{
+    var geometry = new THREE.BoxGeometry(1, 1, .5);
+    var material = new THREE.MeshToonMaterial();
+    var cube = new THREE.Mesh(geometry, material);
+    cube.position.x -= 2.5;
+    cube.position.y += 2.3;
+    cube.name = "click";
+    groupClickables.add(cube);
+}
+//Bottom, center click event cube
+{
+    var geometry = new THREE.BoxGeometry(1, 1, .5);
+    var material = new THREE.MeshToonMaterial();
+    var cube = new THREE.Mesh(geometry, material);
+    cube.position.x = 0;
+    cube.position.y -= 2.3;
+    groupClickables.add(cube);
+}
+//Bottom, right click event cube
+{
+    var geometry = new THREE.BoxGeometry(1, 1, .5);
+    var material = new THREE.MeshToonMaterial();
+    var cube = new THREE.Mesh(geometry, material);
+    cube.position.x += 2.5;
+    cube.position.y -= 2.3;
+    groupClickables.add(cube);
+}
+//Bottom, left click event cube
+{
+    var geometry = new THREE.BoxGeometry(1, 1, .5);
+    var material = new THREE.MeshToonMaterial();
+    var cube = new THREE.Mesh(geometry, material);
+    cube.position.x -= 2.5;
+    cube.position.y -= 2.3;
+    groupClickables.add(cube);
+}
 
+
+scene.add(groupClickables);
 //the position of the camera in the world space
 camera.position.z = 10;
+
+var raycaster = new THREE.Raycaster();
+var mouse = new THREE.Vector2();
+
+var raycaster = new THREE.Raycaster(), INTERSECTED;
+var mouse = new THREE.Vector2();
+var replaceLocation;
+var replace;
+var index =0;
+function OnMouseClick(event)
+{
+   
+    // calculate mouse position in normalized device coordinates
+    // (-1 to +1) for both components
+    event.preventDefault();
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    raycaster.setFromCamera(mouse, camera);
+    var intersects = raycaster.intersectObjects(groupClickables.children);
+    if (intersects.length > 0)
+    {
+        index++;
+        if (index % 2 == 0)
+        {
+            intersects[0].object.geometry = new THREE.CylinderGeometry(.5, .5, .3);
+            intersects[0].object.rotation.x = Math.PI / 2;
+        }
+        else
+        {
+            var loader = new THREE.FontLoader();
+
+            loader.load('helvetiker_regular.typeface.json', function (font) {
+
+                var geometry = new THREE.TextGeometry('X', {
+                    font: font,
+                    size: 1,
+                    height: 1
+                });
+                intersects[0].object.geometry = geometry;
+            });
+            intersects[0].object.position.x -= .5;
+            intersects[0].object.position.y -= .5;
+            intersects[0].object.position.z -= .5;
+        }
+    }
+}
+
 
 //lighting for the scene
 //light gray
@@ -276,11 +409,30 @@ var update = function ()
 {
     //cube.rotation.x += 0.05;
     //cube.rotation.y += 0.05;
+    //Click();
 };
+
 
 //draw elements
 var render = function ()
 {
+    //update raycaster with mouse movement  
+    raycaster.setFromCamera(mouse, camera);
+    // calculate objects intersecting the picking ray
+    var intersects = raycaster.intersectObjects(groupClickables.children);
+    //count and look after all objects in the diamonds group
+    if (intersects.length > 0) {
+        if (INTERSECTED != intersects[0].object) {
+            if (INTERSECTED) INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
+            INTERSECTED = intersects[0].object;
+            INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
+            replace = intersects[0].object;
+            replaceLocation = intersects[0].object.position;
+        }
+    } else {
+        if (INTERSECTED) INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
+        INTERSECTED = null;
+    }
     renderer.render(scene, camera);
 };
 
@@ -288,6 +440,7 @@ var render = function ()
 var gameLoop = function ()
 {
     requestAnimationFrame(gameLoop);
+    document.addEventListener('mousedown', OnMouseClick, false);
     render();
     update();
 };
