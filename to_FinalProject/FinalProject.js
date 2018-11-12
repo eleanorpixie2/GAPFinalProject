@@ -256,6 +256,8 @@ var groupClickables = new THREE.Group();
     topCube4.position.x += (1 + LeftCube4.position.x);
 }
 
+var locationClick = [];
+
 //Center, center click event cube
 {
     var geometry = new THREE.BoxGeometry(1, 1, .5);
@@ -263,6 +265,8 @@ var groupClickables = new THREE.Group();
     var cube = new THREE.Mesh(geometry, material);
     cube.position.x = 0;
     cube.position.y = 0;
+    var clicked = false;
+    locationClick.push(cube.position, clicked);
     groupClickables.add(cube);
 }
 //Right, center click event cube
@@ -272,6 +276,8 @@ var groupClickables = new THREE.Group();
     var cube = new THREE.Mesh(geometry, material);
     cube.position.x += 2.5;
     cube.position.y = 0;
+    var clicked = false;
+    locationClick.push(cube.position,clicked);
     groupClickables.add(cube);
 }
 //left, center click event cube
@@ -281,6 +287,8 @@ var groupClickables = new THREE.Group();
     var cube = new THREE.Mesh(geometry, material);
     cube.position.x -= 2.5;
     cube.position.y = 0;
+    var clicked = false;
+    locationClick.push(cube.position, clicked);
     groupClickables.add(cube);
 }
 //Top, center click event cube
@@ -290,6 +298,8 @@ var groupClickables = new THREE.Group();
     var cube = new THREE.Mesh(geometry, material);
     cube.position.x = 0;
     cube.position.y += 2.3;
+    var clicked = false;
+    locationClick.push(cube.position,clicked);
     groupClickables.add(cube);
 }
 //Top, right click event cube
@@ -299,6 +309,8 @@ var groupClickables = new THREE.Group();
     var cube = new THREE.Mesh(geometry, material);
     cube.position.x += 2.5;
     cube.position.y += 2.3;
+    var clicked = false;
+    locationClick.push(cube.position,clicked);
     groupClickables.add(cube);
 }
 //Top, left click event cube
@@ -309,6 +321,8 @@ var groupClickables = new THREE.Group();
     cube.position.x -= 2.5;
     cube.position.y += 2.3;
     cube.name = "click";
+    var clicked = false;
+    locationClick.push(cube.position,clicked);
     groupClickables.add(cube);
 }
 //Bottom, center click event cube
@@ -318,6 +332,8 @@ var groupClickables = new THREE.Group();
     var cube = new THREE.Mesh(geometry, material);
     cube.position.x = 0;
     cube.position.y -= 2.3;
+    var clicked = false;
+    locationClick.push(cube.position,clicked);
     groupClickables.add(cube);
 }
 //Bottom, right click event cube
@@ -327,6 +343,8 @@ var groupClickables = new THREE.Group();
     var cube = new THREE.Mesh(geometry, material);
     cube.position.x += 2.5;
     cube.position.y -= 2.3;
+    var clicked = false;
+    locationClick.push(cube.position, clicked);
     groupClickables.add(cube);
 }
 //Bottom, left click event cube
@@ -336,6 +354,8 @@ var groupClickables = new THREE.Group();
     var cube = new THREE.Mesh(geometry, material);
     cube.position.x -= 2.5;
     cube.position.y -= 2.3;
+    var clicked = false;
+    locationClick.push(cube.position,clicked);
     groupClickables.add(cube);
 }
 
@@ -351,7 +371,8 @@ var raycaster = new THREE.Raycaster(), INTERSECTED;
 var mouse = new THREE.Vector2();
 var replaceLocation;
 var replace;
-var index =0;
+var index = 0;
+var hasPlayedInSpot;
 function OnMouseClick(event)
 {
    
@@ -362,32 +383,37 @@ function OnMouseClick(event)
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
     raycaster.setFromCamera(mouse, camera);
     var intersects = raycaster.intersectObjects(groupClickables.children);
-    if (intersects.length > 0)
-    {
-        index++;
-        if (index % 2 == 0)
+        if (intersects.length > 0)
         {
-            intersects[0].object.geometry = new THREE.CylinderGeometry(.5, .5, .3);
-            intersects[0].object.rotation.x = Math.PI / 2;
-        }
-        else
-        {
-            var loader = new THREE.FontLoader();
-
-            loader.load('helvetiker_regular.typeface.json', function (font) {
-
-                var geometry = new THREE.TextGeometry('X', {
-                    font: font,
-                    size: 1,
-                    height: 1
-                });
-                intersects[0].object.geometry = geometry;
+            var found = locationClick.find(function (element) {
+                return element == intersects[0].object.position;
             });
-            intersects[0].object.position.x -= .5;
-            intersects[0].object.position.y -= .5;
-            intersects[0].object.position.z -= .5;
+            console.log(found);
+            if (!found.clicked) {
+                found.clicked = true;
+                index++;
+                if (index % 2 == 0) {
+                    intersects[0].object.geometry = new THREE.CylinderGeometry(.5, .5, .3);
+                    intersects[0].object.rotation.x = Math.PI / 2;
+                }
+                else {
+                    var loader = new THREE.FontLoader();
+
+                    loader.load('helvetiker_regular.typeface.json', function (font) {
+
+                        var geometry = new THREE.TextGeometry('X', {
+                            font: font,
+                            size: 1,
+                            height: 1
+                        });
+                        intersects[0].object.geometry = geometry;
+                    });
+                    intersects[0].object.position.x -= .5;
+                    intersects[0].object.position.y -= .5;
+                    intersects[0].object.position.z -= .5;
+                }
+            }
         }
-    }
 }
 
 
