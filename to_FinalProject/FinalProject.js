@@ -5,8 +5,7 @@ var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-window.addEventListener('resize', function ()
-{
+window.addEventListener('resize', function () {
     var width = window.innerWidth;
     var height = window.innerHeight;
     renderer.setSize(width, height);
@@ -268,7 +267,8 @@ var locationClick = [];
     var clicked = false;
     var clickedO = false;
     var clickedX = false;
-    locationClick.push(cube.position, clicked,clickedO,clickedX);
+    var obj = { Cube: cube.position, clicked, clickedO, clickedX };
+    locationClick.push(obj);
     groupClickables.add(cube);
 }
 //Right, center click event cube
@@ -281,7 +281,8 @@ var locationClick = [];
     var clicked = false;
     var clickedO = false;
     var clickedX = false;
-    locationClick.push(cube.position,clicked, clickedO, clickedX);
+    var obj = { Cube: cube.position, clicked, clickedO, clickedX };
+    locationClick.push(obj);
     groupClickables.add(cube);
 }
 //left, center click event cube
@@ -294,7 +295,8 @@ var locationClick = [];
     var clicked = false;
     var clickedO = false;
     var clickedX = false;
-    locationClick.push(cube.position,clicked, clickedO, clickedX);
+    var obj = { Cube: cube.position, clicked, clickedO, clickedX };
+    locationClick.push(obj);
     groupClickables.add(cube);
 }
 //Top, center click event cube
@@ -307,7 +309,8 @@ var locationClick = [];
     var clicked = false;
     var clickedO = false;
     var clickedX = false;
-    locationClick.push(cube.position, clicked,clickedO, clickedX);
+    var obj = { Cube: cube.position, clicked, clickedO, clickedX };
+    locationClick.push(obj);
     groupClickables.add(cube);
 }
 //Top, right click event cube
@@ -320,7 +323,8 @@ var locationClick = [];
     var clicked = false;
     var clickedO = false;
     var clickedX = false;
-    locationClick.push(cube.position,clicked, clickedO, clickedX);
+    var obj = { Cube: cube.position, clicked, clickedO, clickedX };
+    locationClick.push(obj);
     groupClickables.add(cube);
 }
 //Top, left click event cube
@@ -334,7 +338,8 @@ var locationClick = [];
     var clicked = false;
     var clickedO = false;
     var clickedX = false;
-    locationClick.push(cube.position,clicked, clickedO, clickedX);
+    var obj = { Cube: cube.position, clicked, clickedO, clickedX };
+    locationClick.push(obj);
     groupClickables.add(cube);
 }
 //Bottom, center click event cube
@@ -347,7 +352,8 @@ var locationClick = [];
     var clicked = false;
     var clickedO = false;
     var clickedX = false;
-    locationClick.push(cube.position,clicked, clickedO, clickedX);
+    var obj = { Cube: cube.position, clicked, clickedO, clickedX };
+    locationClick.push(obj);
     groupClickables.add(cube);
 }
 //Bottom, right click event cube
@@ -360,7 +366,8 @@ var locationClick = [];
     var clicked = false;
     var clickedO = false;
     var clickedX = false;
-    locationClick.push(cube.position, clicked,clickedO, clickedX);
+    var obj = { Cube: cube.position, clicked, clickedO, clickedX };
+    locationClick.push(obj);
     groupClickables.add(cube);
 }
 //Bottom, left click event cube
@@ -373,7 +380,8 @@ var locationClick = [];
     var clicked = false;
     var clickedO = false;
     var clickedX = false;
-    locationClick.push(cube.position, clicked,clickedO, clickedX);
+    var obj = { Cube: cube.position, clicked, clickedO, clickedX };
+    locationClick.push(obj);
     groupClickables.add(cube);
 }
 
@@ -388,9 +396,8 @@ var replaceLocation;
 var replace;
 var index = 0;
 var hasPlayedInSpot;
-function OnMouseClick(event)
-{
-   
+function OnMouseClick(event) {
+
     // calculate mouse position in normalized device coordinates
     // (-1 to +1) for both components
     event.preventDefault();
@@ -398,39 +405,38 @@ function OnMouseClick(event)
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
     raycaster.setFromCamera(mouse, camera);
     var intersects = raycaster.intersectObjects(groupClickables.children);
-        if (intersects.length > 0)
-        {
-            var found = locationClick.find(function (element) {
-                return element == intersects[0].object.position;
-            });
-            console.log(found);
-            if (!found.clicked) {
-                found.clicked = true;
-                index++;
-                if (index % 2 == 0 && !found.clickedO) {
-                    found.clickedO = true;
-                    intersects[0].object.geometry = new THREE.CylinderGeometry(.5, .5, .3);
-                    intersects[0].object.rotation.x = Math.PI / 2;
-                }
-                else if (!found.clickedX) {
-                    found.clickedX = true;
-                    var loader = new THREE.FontLoader();
+    if (intersects.length > 0) {
+        var found = locationClick.find(function (element) {
+            return element.Cube == intersects[0].object.position;
+        });
 
-                    loader.load('helvetiker_regular.typeface.json', function (font) {
+        if (!found.clicked) {
+            found.clicked = true;
+            index++;
+            if (index % 2 == 0 && !found.clickedO) {
+                found.clickedO = true;
+                intersects[0].object.geometry = new THREE.CylinderGeometry(.5, .5, .3);
+                intersects[0].object.rotation.x = Math.PI / 2;
+            }
+            else if (!found.clickedX) {
+                found.clickedX = true;
+                var loader = new THREE.FontLoader();
 
-                        var geometry = new THREE.TextGeometry('X', {
-                            font: font,
-                            size: 1,
-                            height: 1
-                        });
-                        intersects[0].object.geometry = geometry;
+                loader.load('helvetiker_regular.typeface.json', function (font) {
+
+                    var geometry = new THREE.TextGeometry('X', {
+                        font: font,
+                        size: 1,
+                        height: 1
                     });
-                    intersects[0].object.position.x -= .5;
-                    intersects[0].object.position.y -= .5;
-                    intersects[0].object.position.z -= .5;
-                }
+                    intersects[0].object.geometry = geometry;
+                });
+                intersects[0].object.position.x -= .5;
+                intersects[0].object.position.y -= .5;
+                intersects[0].object.position.z -= .5;
             }
         }
+    }
 }
 
 
@@ -448,16 +454,14 @@ scene.add(pointLight);
 scene.add(directionalLight);
 
 //game logic
-var update = function ()
-{
+var update = function () {
     if (locationClick.length > 0)
         CheckForwin();
 };
 
 
 //draw elements
-var render = function ()
-{
+var render = function () {
     //update raycaster with mouse movement  
     raycaster.setFromCamera(mouse, camera);
     // calculate objects intersecting the picking ray
@@ -478,24 +482,32 @@ var render = function ()
     renderer.render(scene, camera);
 };
 
+var wonX = false;
+var wonY = false;
+var CheckForwin = function () {
 
-var CheckForwin = function ()
-{
-    if (locationClick[0].clicked && locationClick[1].clicked && locationClick[2].clicked)
-    {
-        if (locationClick[0].clickedX && locationClick[1].clickedX && locationClick[2].clickedX) {
+    if (!wonX && !wonY) {
+        if (locationClick[0].clickedX && locationClick[1].clickedX && locationClick[2].clickedX ||
+            locationClick[3].clickedX && locationClick[4].clickedX && locationClick[5].clickedX ||
+            locationClick[6].clickedX && locationClick[7].clickedX && locationClick[8].clickedX ||
+            locationClick[5].clickedX && locationClick[0].clickedX && locationClick[7].clickedX ||
+            locationClick[4].clickedX && locationClick[0].clickedX && locationClick[8].clickedX) {
             console.log("Win X");
+            wonX = true;
         }
-        else if (locationClick[0].clickedO && locationClick[1].clickedO && locationClick[2].clickedO)
-        {
+        else if (locationClick[0].clickedO && locationClick[1].clickedO && locationClick[2].clickedO ||
+            locationClick[3].clickedO && locationClick[4].clickedO && locationClick[5].clickedO ||
+            locationClick[6].clickedO && locationClick[7].clickedO && locationClick[8].clickedO ||
+            locationClick[5].clickedO && locationClick[0].clickedO && locationClick[7].clickedO ||
+            locationClick[4].clickedO && locationClick[0].clickedO && locationClick[8].clickedO) {
             console.log("Win O");
+            wonY = true;
         }
     }
 }
 
 //run game loop(update,render,repeat)
-var gameLoop = function ()
-{
+var gameLoop = function () {
     requestAnimationFrame(gameLoop);
     document.addEventListener('mousedown', OnMouseClick, false);
     render();
