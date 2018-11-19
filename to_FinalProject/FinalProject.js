@@ -266,7 +266,9 @@ var locationClick = [];
     cube.position.x = 0;
     cube.position.y = 0;
     var clicked = false;
-    locationClick.push(cube.position, clicked);
+    var clickedO = false;
+    var clickedX = false;
+    locationClick.push(cube.position, clicked,clickedO,clickedX);
     groupClickables.add(cube);
 }
 //Right, center click event cube
@@ -277,7 +279,9 @@ var locationClick = [];
     cube.position.x += 2.5;
     cube.position.y = 0;
     var clicked = false;
-    locationClick.push(cube.position,clicked);
+    var clickedO = false;
+    var clickedX = false;
+    locationClick.push(cube.position,clicked, clickedO, clickedX);
     groupClickables.add(cube);
 }
 //left, center click event cube
@@ -288,7 +292,9 @@ var locationClick = [];
     cube.position.x -= 2.5;
     cube.position.y = 0;
     var clicked = false;
-    locationClick.push(cube.position, clicked);
+    var clickedO = false;
+    var clickedX = false;
+    locationClick.push(cube.position,clicked, clickedO, clickedX);
     groupClickables.add(cube);
 }
 //Top, center click event cube
@@ -299,7 +305,9 @@ var locationClick = [];
     cube.position.x = 0;
     cube.position.y += 2.3;
     var clicked = false;
-    locationClick.push(cube.position,clicked);
+    var clickedO = false;
+    var clickedX = false;
+    locationClick.push(cube.position, clicked,clickedO, clickedX);
     groupClickables.add(cube);
 }
 //Top, right click event cube
@@ -310,7 +318,9 @@ var locationClick = [];
     cube.position.x += 2.5;
     cube.position.y += 2.3;
     var clicked = false;
-    locationClick.push(cube.position,clicked);
+    var clickedO = false;
+    var clickedX = false;
+    locationClick.push(cube.position,clicked, clickedO, clickedX);
     groupClickables.add(cube);
 }
 //Top, left click event cube
@@ -322,7 +332,9 @@ var locationClick = [];
     cube.position.y += 2.3;
     cube.name = "click";
     var clicked = false;
-    locationClick.push(cube.position,clicked);
+    var clickedO = false;
+    var clickedX = false;
+    locationClick.push(cube.position,clicked, clickedO, clickedX);
     groupClickables.add(cube);
 }
 //Bottom, center click event cube
@@ -333,7 +345,9 @@ var locationClick = [];
     cube.position.x = 0;
     cube.position.y -= 2.3;
     var clicked = false;
-    locationClick.push(cube.position,clicked);
+    var clickedO = false;
+    var clickedX = false;
+    locationClick.push(cube.position,clicked, clickedO, clickedX);
     groupClickables.add(cube);
 }
 //Bottom, right click event cube
@@ -344,7 +358,9 @@ var locationClick = [];
     cube.position.x += 2.5;
     cube.position.y -= 2.3;
     var clicked = false;
-    locationClick.push(cube.position, clicked);
+    var clickedO = false;
+    var clickedX = false;
+    locationClick.push(cube.position, clicked,clickedO, clickedX);
     groupClickables.add(cube);
 }
 //Bottom, left click event cube
@@ -355,7 +371,9 @@ var locationClick = [];
     cube.position.x -= 2.5;
     cube.position.y -= 2.3;
     var clicked = false;
-    locationClick.push(cube.position,clicked);
+    var clickedO = false;
+    var clickedX = false;
+    locationClick.push(cube.position, clicked,clickedO, clickedX);
     groupClickables.add(cube);
 }
 
@@ -363,9 +381,6 @@ var locationClick = [];
 scene.add(groupClickables);
 //the position of the camera in the world space
 camera.position.z = 10;
-
-var raycaster = new THREE.Raycaster();
-var mouse = new THREE.Vector2();
 
 var raycaster = new THREE.Raycaster(), INTERSECTED;
 var mouse = new THREE.Vector2();
@@ -392,11 +407,13 @@ function OnMouseClick(event)
             if (!found.clicked) {
                 found.clicked = true;
                 index++;
-                if (index % 2 == 0) {
+                if (index % 2 == 0 && !found.clickedO) {
+                    found.clickedO = true;
                     intersects[0].object.geometry = new THREE.CylinderGeometry(.5, .5, .3);
                     intersects[0].object.rotation.x = Math.PI / 2;
                 }
-                else {
+                else if (!found.clickedX) {
+                    found.clickedX = true;
                     var loader = new THREE.FontLoader();
 
                     loader.load('helvetiker_regular.typeface.json', function (font) {
@@ -433,9 +450,8 @@ scene.add(directionalLight);
 //game logic
 var update = function ()
 {
-    //cube.rotation.x += 0.05;
-    //cube.rotation.y += 0.05;
-    //Click();
+    if (locationClick.length > 0)
+        CheckForwin();
 };
 
 
@@ -461,6 +477,21 @@ var render = function ()
     }
     renderer.render(scene, camera);
 };
+
+
+var CheckForwin = function ()
+{
+    if (locationClick[0].clicked && locationClick[1].clicked && locationClick[2].clicked)
+    {
+        if (locationClick[0].clickedX && locationClick[1].clickedX && locationClick[2].clickedX) {
+            console.log("Win X");
+        }
+        else if (locationClick[0].clickedO && locationClick[1].clickedO && locationClick[2].clickedO)
+        {
+            console.log("Win O");
+        }
+    }
+}
 
 //run game loop(update,render,repeat)
 var gameLoop = function ()
