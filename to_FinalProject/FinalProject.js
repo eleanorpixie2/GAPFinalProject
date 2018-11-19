@@ -17,374 +17,63 @@ controls = new THREE.OrbitControls(camera, renderer.domElement);
 
 var groupClickables = new THREE.Group();
 
-//center row, center column box
-{
-    var LeftGeometry = new THREE.BoxGeometry(.3, 2, .5);
-    var LeftMaterial = new THREE.MeshLambertMaterial();
-    var LeftCube = new THREE.Mesh(LeftGeometry, LeftMaterial);
-    LeftCube.position.x -= 1;
-    scene.add(LeftCube);
-    var RightGeometry = new THREE.BoxGeometry(.3, 2, .5);
-    var RightMaterial = new THREE.MeshLambertMaterial();
-    var RightCube = new THREE.Mesh(RightGeometry, RightMaterial);
-    RightCube.position.x += (2 + LeftCube.position.x);
-    scene.add(RightCube);
-    var BottomGeometry = new THREE.BoxGeometry(2, .3, .5);
-    var BottomMaterial = new THREE.MeshLambertMaterial();
-    var BottomCube = new THREE.Mesh(BottomGeometry, BottomMaterial);
-    scene.add(BottomCube);
-    BottomCube.position.y -= .85;
-    BottomCube.position.x += (1 + LeftCube.position.x);
-    var topGeometry = new THREE.BoxGeometry(2, .3, .5);
-    var topMaterial = new THREE.MeshLambertMaterial();
-    var topCube = new THREE.Mesh(topGeometry, topMaterial);
-    scene.add(topCube);
-    topCube.position.y += .85;
-    topCube.position.x += (1 + LeftCube.position.x);
-}
-//center row, left column box
-{
-    var LeftGeometry1 = new THREE.BoxGeometry(.3, 2, .5);
-    var LeftMaterial1 = new THREE.MeshLambertMaterial();
-    var LeftCube1 = new THREE.Mesh(LeftGeometry1, LeftMaterial1);
-    LeftCube1.position.x -= 3.5;
-    scene.add(LeftCube1);
-    var RightGeometry1 = new THREE.BoxGeometry(.3, 2, .5);
-    var RightMaterial1 = new THREE.MeshLambertMaterial();
-    var RightCube1 = new THREE.Mesh(RightGeometry1, RightMaterial1);
-    RightCube1.position.x += (2 + LeftCube1.position.x);
-    scene.add(RightCube1);
-    var BottomGeometry1 = new THREE.BoxGeometry(2, .3, .5);
-    var BottomMaterial1 = new THREE.MeshLambertMaterial();
-    var BottomCube1 = new THREE.Mesh(BottomGeometry1, BottomMaterial1);
-    scene.add(BottomCube1);
-    BottomCube1.position.y -= .85;
-    BottomCube1.position.x += (1 + LeftCube1.position.x);
-    var topGeometry1 = new THREE.BoxGeometry(2, .3, .5);
-    var topMaterial1 = new THREE.MeshLambertMaterial();
-    var topCube1 = new THREE.Mesh(topGeometry1, topMaterial1);
-    scene.add(topCube1);
-    topCube1.position.y += .85;
-    topCube1.position.x += (1 + LeftCube1.position.x);
-}
-//center row, right column box
-{
-    var LeftGeometry2 = new THREE.BoxGeometry(.3, 2, .5);
-    var LeftMaterial2 = new THREE.MeshLambertMaterial();
-    var LeftCube2 = new THREE.Mesh(LeftGeometry2, LeftMaterial2);
-    LeftCube2.position.x += 1.5;
-    scene.add(LeftCube2);
-    var RightGeometry2 = new THREE.BoxGeometry(.3, 2, .5);
-    var RightMaterial2 = new THREE.MeshLambertMaterial();
-    var RightCube2 = new THREE.Mesh(RightGeometry2, RightMaterial2);
-    RightCube2.position.x += (2 + LeftCube2.position.x);
-    scene.add(RightCube2);
-    var BottomGeometry2 = new THREE.BoxGeometry(2, .3, .5);
-    var BottomMaterial2 = new THREE.MeshLambertMaterial();
-    var BottomCube2 = new THREE.Mesh(BottomGeometry2, BottomMaterial2);
-    scene.add(BottomCube2);
-    BottomCube2.position.y -= .85;
-    BottomCube2.position.x += (1 + LeftCube2.position.x);
-    var topGeometry2 = new THREE.BoxGeometry(2, .3, .5);
-    var topMaterial2 = new THREE.MeshLambertMaterial();
-    var topCube2 = new THREE.Mesh(topGeometry2, topMaterial2);
-    scene.add(topCube2);
-    topCube2.position.y += .85;
-    topCube2.position.x += (1 + LeftCube2.position.x);
-}
-//top row, center column box
-{
-    var LeftGeometry3 = new THREE.BoxGeometry(.3, 2, .5);
-    var LeftMaterial3 = new THREE.MeshLambertMaterial();
-    var LeftCube3 = new THREE.Mesh(LeftGeometry3, LeftMaterial3);
-    LeftCube3.position.x -= 1;
-    LeftCube3.position.y += 2.3;
-    scene.add(LeftCube3);
-    var RightGeometry3 = new THREE.BoxGeometry(.3, 2, .5);
-    var RightMaterial3 = new THREE.MeshLambertMaterial();
-    var RightCube3 = new THREE.Mesh(RightGeometry3, RightMaterial3);
-    RightCube3.position.x += (2 + LeftCube3.position.x);
-    RightCube3.position.y += LeftCube3.position.y;
-    scene.add(RightCube3);
-    var BottomGeometry3 = new THREE.BoxGeometry(2, .3, .5);
-    var BottomMaterial3 = new THREE.MeshLambertMaterial();
-    var BottomCube3 = new THREE.Mesh(BottomGeometry3, BottomMaterial3);
-    scene.add(BottomCube3);
-    BottomCube3.position.y -= (.85 - LeftCube3.position.y);
-    BottomCube3.position.x += (1 + LeftCube3.position.x);
-    var topGeometry3 = new THREE.BoxGeometry(2, .3, .5);
-    var topMaterial3 = new THREE.MeshLambertMaterial();
-    var topCube3 = new THREE.Mesh(topGeometry3, topMaterial3);
-    scene.add(topCube3);
-    topCube3.position.y += (.85 + LeftCube3.position.y);
-    topCube3.position.x += (1 + LeftCube3.position.x);
-}
-//top row, left column box
-{
-    var LeftGeometry4 = new THREE.BoxGeometry(.3, 2, .5);
-    var LeftMaterial4 = new THREE.MeshLambertMaterial();
-    var LeftCube4 = new THREE.Mesh(LeftGeometry4, LeftMaterial4);
-    LeftCube4.position.x -= 3.5;
-    LeftCube4.position.y += 2.3;
-    scene.add(LeftCube4);
-    var RightGeometry4 = new THREE.BoxGeometry(.3, 2, .5);
-    var RightMaterial4 = new THREE.MeshLambertMaterial();
-    var RightCube4 = new THREE.Mesh(RightGeometry4, RightMaterial4);
-    RightCube4.position.x += (2 + LeftCube4.position.x);
-    RightCube4.position.y += LeftCube4.position.y;
-    scene.add(RightCube4);
-    var BottomGeometry4 = new THREE.BoxGeometry(2, .3, .5);
-    var BottomMaterial4 = new THREE.MeshLambertMaterial();
-    var BottomCube4 = new THREE.Mesh(BottomGeometry4, BottomMaterial4);
-    scene.add(BottomCube4);
-    BottomCube4.position.y -= (.85 - LeftCube4.position.y);
-    BottomCube4.position.x += (1 + LeftCube4.position.x);
-    var topGeometry4 = new THREE.BoxGeometry(2, .3, .5);
-    var topMaterial4 = new THREE.MeshLambertMaterial();
-    var topCube4 = new THREE.Mesh(topGeometry4, topMaterial4);
-    scene.add(topCube4);
-    topCube4.position.y += (.85 + LeftCube4.position.y);
-    topCube4.position.x += (1 + LeftCube4.position.x);
-}
-//top row, right column box
-{
-    var LeftGeometry4 = new THREE.BoxGeometry(.3, 2, .5);
-    var LeftMaterial4 = new THREE.MeshLambertMaterial();
-    var LeftCube4 = new THREE.Mesh(LeftGeometry4, LeftMaterial4);
-    LeftCube4.position.x += 1.5;
-    LeftCube4.position.y += 2.3;
-    scene.add(LeftCube4);
-    var RightGeometry4 = new THREE.BoxGeometry(.3, 2, .5);
-    var RightMaterial4 = new THREE.MeshLambertMaterial();
-    var RightCube4 = new THREE.Mesh(RightGeometry4, RightMaterial4);
-    RightCube4.position.x += (2 + LeftCube4.position.x);
-    RightCube4.position.y += LeftCube4.position.y;
-    scene.add(RightCube4);
-    var BottomGeometry4 = new THREE.BoxGeometry(2, .3, .5);
-    var BottomMaterial4 = new THREE.MeshLambertMaterial();
-    var BottomCube4 = new THREE.Mesh(BottomGeometry4, BottomMaterial4);
-    scene.add(BottomCube4);
-    BottomCube4.position.y -= (.85 - LeftCube4.position.y);
-    BottomCube4.position.x += (1 + LeftCube4.position.x);
-    var topGeometry4 = new THREE.BoxGeometry(2, .3, .5);
-    var topMaterial4 = new THREE.MeshLambertMaterial();
-    var topCube4 = new THREE.Mesh(topGeometry4, topMaterial4);
-    scene.add(topCube4);
-    topCube4.position.y += (.85 + LeftCube4.position.y);
-    topCube4.position.x += (1 + LeftCube4.position.x);
-}
-//bottom row, center column box
-{
-    var LeftGeometry4 = new THREE.BoxGeometry(.3, 2, .5);
-    var LeftMaterial4 = new THREE.MeshLambertMaterial();
-    var LeftCube4 = new THREE.Mesh(LeftGeometry4, LeftMaterial4);
-    LeftCube4.position.x -= 1;
-    LeftCube4.position.y -= 2.3;
-    scene.add(LeftCube4);
-    var RightGeometry4 = new THREE.BoxGeometry(.3, 2, .5);
-    var RightMaterial4 = new THREE.MeshLambertMaterial();
-    var RightCube4 = new THREE.Mesh(RightGeometry4, RightMaterial4);
-    RightCube4.position.x += (2 + LeftCube4.position.x);
-    RightCube4.position.y += LeftCube4.position.y;
-    scene.add(RightCube4);
-    var BottomGeometry4 = new THREE.BoxGeometry(2, .3, .5);
-    var BottomMaterial4 = new THREE.MeshLambertMaterial();
-    var BottomCube4 = new THREE.Mesh(BottomGeometry4, BottomMaterial4);
-    scene.add(BottomCube4);
-    BottomCube4.position.y -= (.85 - LeftCube4.position.y);
-    BottomCube4.position.x += (1 + LeftCube4.position.x);
-    var topGeometry4 = new THREE.BoxGeometry(2, .3, .5);
-    var topMaterial4 = new THREE.MeshLambertMaterial();
-    var topCube4 = new THREE.Mesh(topGeometry4, topMaterial4);
-    scene.add(topCube4);
-    topCube4.position.y += (.85 + LeftCube4.position.y);
-    topCube4.position.x += (1 + LeftCube4.position.x);
-}
-//bottom row, left column box
-{
-    var LeftGeometry4 = new THREE.BoxGeometry(.3, 2, .5);
-    var LeftMaterial4 = new THREE.MeshLambertMaterial();
-    var LeftCube4 = new THREE.Mesh(LeftGeometry4, LeftMaterial4);
-    LeftCube4.position.x -= 3.5;
-    LeftCube4.position.y -= 2.3;
-    scene.add(LeftCube4);
-    var RightGeometry4 = new THREE.BoxGeometry(.3, 2, .5);
-    var RightMaterial4 = new THREE.MeshLambertMaterial();
-    var RightCube4 = new THREE.Mesh(RightGeometry4, RightMaterial4);
-    RightCube4.position.x += (2 + LeftCube4.position.x);
-    RightCube4.position.y += LeftCube4.position.y;
-    scene.add(RightCube4);
-    var BottomGeometry4 = new THREE.BoxGeometry(2, .3, .5);
-    var BottomMaterial4 = new THREE.MeshLambertMaterial();
-    var BottomCube4 = new THREE.Mesh(BottomGeometry4, BottomMaterial4);
-    scene.add(BottomCube4);
-    BottomCube4.position.y -= (.85 - LeftCube4.position.y);
-    BottomCube4.position.x += (1 + LeftCube4.position.x);
-    var topGeometry4 = new THREE.BoxGeometry(2, .3, .5);
-    var topMaterial4 = new THREE.MeshLambertMaterial();
-    var topCube4 = new THREE.Mesh(topGeometry4, topMaterial4);
-    scene.add(topCube4);
-    topCube4.position.y += (.85 + LeftCube4.position.y);
-    topCube4.position.x += (1 + LeftCube4.position.x);
-}
-//bottom row, right column box
-{
-    var LeftGeometry4 = new THREE.BoxGeometry(.3, 2, .5);
-    var LeftMaterial4 = new THREE.MeshLambertMaterial();
-    var LeftCube4 = new THREE.Mesh(LeftGeometry4, LeftMaterial4);
-    LeftCube4.position.x += 1.5;
-    LeftCube4.position.y -= 2.3;
-    scene.add(LeftCube4);
-    var RightGeometry4 = new THREE.BoxGeometry(.3, 2, .5);
-    var RightMaterial4 = new THREE.MeshLambertMaterial();
-    var RightCube4 = new THREE.Mesh(RightGeometry4, RightMaterial4);
-    RightCube4.position.x += (2 + LeftCube4.position.x);
-    RightCube4.position.y += LeftCube4.position.y;
-    scene.add(RightCube4);
-    var BottomGeometry4 = new THREE.BoxGeometry(2, .3, .5);
-    var BottomMaterial4 = new THREE.MeshLambertMaterial();
-    var BottomCube4 = new THREE.Mesh(BottomGeometry4, BottomMaterial4);
-    scene.add(BottomCube4);
-    BottomCube4.position.y -= (.85 - LeftCube4.position.y);
-    BottomCube4.position.x += (1 + LeftCube4.position.x);
-    var topGeometry4 = new THREE.BoxGeometry(2, .3, .5);
-    var topMaterial4 = new THREE.MeshLambertMaterial();
-    var topCube4 = new THREE.Mesh(topGeometry4, topMaterial4);
-    scene.add(topCube4);
-    topCube4.position.y += (.85 + LeftCube4.position.y);
-    topCube4.position.x += (1 + LeftCube4.position.x);
-}
+
+var LoadBoard = function () {
+    //center row, center column box
+    var CC = new Board(-1, 0);
+
+    //center row, left column box
+    var CL = new Board(-3.5, 0);
+
+    //center row, right column box
+    var CR = new Board(1.5, 0);
+
+    //top row, center column box
+    var TC = new Board(-1, 2.3);
+
+    //top row, left column box
+    var TL = new Board(-3.5, 2.3);
+
+    //top row, right column box
+    var TR = new Board(1.5, 2.3);
+
+    //bottom row, center column box
+    var BC = new Board(-1, -2.3);
+
+    //bottom row, left column box
+    var BL = new Board(-3.5, -2.3);
+
+    //bottom row, right column box
+    var BR = new Board(1.5, -2.3);
+};
 
 var locationClick = [];
 
+var LoadInteractables = function ()
 //Center, center click event cube
 {
-    var geometry = new THREE.BoxGeometry(1, 1, .5);
-    var material = new THREE.MeshToonMaterial();
-    var cube = new THREE.Mesh(geometry, material);
-    cube.position.x = 0;
-    cube.position.y = 0;
-    var clicked = false;
-    var clickedO = false;
-    var clickedX = false;
-    var obj = { Cube: cube.position, clicked, clickedO, clickedX };
-    locationClick.push(obj);
-    groupClickables.add(cube);
-}
-//Right, center click event cube
-{
-    var geometry = new THREE.BoxGeometry(1, 1, .5);
-    var material = new THREE.MeshToonMaterial();
-    var cube = new THREE.Mesh(geometry, material);
-    cube.position.x += 2.5;
-    cube.position.y = 0;
-    var clicked = false;
-    var clickedO = false;
-    var clickedX = false;
-    var obj = { Cube: cube.position, clicked, clickedO, clickedX };
-    locationClick.push(obj);
-    groupClickables.add(cube);
-}
-//left, center click event cube
-{
-    var geometry = new THREE.BoxGeometry(1, 1, .5);
-    var material = new THREE.MeshToonMaterial();
-    var cube = new THREE.Mesh(geometry, material);
-    cube.position.x -= 2.5;
-    cube.position.y = 0;
-    var clicked = false;
-    var clickedO = false;
-    var clickedX = false;
-    var obj = { Cube: cube.position, clicked, clickedO, clickedX };
-    locationClick.push(obj);
-    groupClickables.add(cube);
-}
-//Top, center click event cube
-{
-    var geometry = new THREE.BoxGeometry(1, 1, .5);
-    var material = new THREE.MeshToonMaterial();
-    var cube = new THREE.Mesh(geometry, material);
-    cube.position.x = 0;
-    cube.position.y += 2.3;
-    var clicked = false;
-    var clickedO = false;
-    var clickedX = false;
-    var obj = { Cube: cube.position, clicked, clickedO, clickedX };
-    locationClick.push(obj);
-    groupClickables.add(cube);
-}
-//Top, right click event cube
-{
-    var geometry = new THREE.BoxGeometry(1, 1, .5);
-    var material = new THREE.MeshToonMaterial();
-    var cube = new THREE.Mesh(geometry, material);
-    cube.position.x += 2.5;
-    cube.position.y += 2.3;
-    var clicked = false;
-    var clickedO = false;
-    var clickedX = false;
-    var obj = { Cube: cube.position, clicked, clickedO, clickedX };
-    locationClick.push(obj);
-    groupClickables.add(cube);
-}
-//Top, left click event cube
-{
-    var geometry = new THREE.BoxGeometry(1, 1, .5);
-    var material = new THREE.MeshToonMaterial();
-    var cube = new THREE.Mesh(geometry, material);
-    cube.position.x -= 2.5;
-    cube.position.y += 2.3;
-    cube.name = "click";
-    var clicked = false;
-    var clickedO = false;
-    var clickedX = false;
-    var obj = { Cube: cube.position, clicked, clickedO, clickedX };
-    locationClick.push(obj);
-    groupClickables.add(cube);
-}
-//Bottom, center click event cube
-{
-    var geometry = new THREE.BoxGeometry(1, 1, .5);
-    var material = new THREE.MeshToonMaterial();
-    var cube = new THREE.Mesh(geometry, material);
-    cube.position.x = 0;
-    cube.position.y -= 2.3;
-    var clicked = false;
-    var clickedO = false;
-    var clickedX = false;
-    var obj = { Cube: cube.position, clicked, clickedO, clickedX };
-    locationClick.push(obj);
-    groupClickables.add(cube);
-}
-//Bottom, right click event cube
-{
-    var geometry = new THREE.BoxGeometry(1, 1, .5);
-    var material = new THREE.MeshToonMaterial();
-    var cube = new THREE.Mesh(geometry, material);
-    cube.position.x += 2.5;
-    cube.position.y -= 2.3;
-    var clicked = false;
-    var clickedO = false;
-    var clickedX = false;
-    var obj = { Cube: cube.position, clicked, clickedO, clickedX };
-    locationClick.push(obj);
-    groupClickables.add(cube);
-}
-//Bottom, left click event cube
-{
-    var geometry = new THREE.BoxGeometry(1, 1, .5);
-    var material = new THREE.MeshToonMaterial();
-    var cube = new THREE.Mesh(geometry, material);
-    cube.position.x -= 2.5;
-    cube.position.y -= 2.3;
-    var clicked = false;
-    var clickedO = false;
-    var clickedX = false;
-    var obj = { Cube: cube.position, clicked, clickedO, clickedX };
-    locationClick.push(obj);
-    groupClickables.add(cube);
-}
+    for (var y = -2.3; y < 3; y += 2.3)
+    {
+        for (var x = -2.5; x < 3; x += 2.5)
+        {
+            var cube = new Cube(x, y, scene);
+            var obj = {
+                CubePos: cube.mesh.position,
+                CubeCli: cube.clicked,
+                CubeCliO: cube.clickedO,
+                CubeCliX: cube.clickedX
+            };
+            //console.log(obj);
+            locationClick.push(obj);
+            groupClickables.add(cube.mesh);
+        }
+    }
+};
 
+function init() {
+    LoadBoard();
+    LoadInteractables();
+};
 
 scene.add(groupClickables);
 //the position of the camera in the world space
@@ -407,7 +96,7 @@ function OnMouseClick(event) {
     var intersects = raycaster.intersectObjects(groupClickables.children);
     if (intersects.length > 0) {
         var found = locationClick.find(function (element) {
-            return element.Cube == intersects[0].object.position;
+            return element.CubePos == intersects[0].object.position;
         });
 
         if (!found.clicked) {
@@ -514,4 +203,5 @@ var gameLoop = function () {
     update();
 };
 
+init();
 gameLoop();
