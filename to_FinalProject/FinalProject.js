@@ -5,6 +5,7 @@ var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
+
 window.addEventListener('resize', function () {
     var width = window.innerWidth;
     var height = window.innerHeight;
@@ -71,13 +72,52 @@ var LoadInteractables = function ()
     }
 };
 
+var groupPlay = new THREE.Group();
+var removeableText = [];
+var Instructions = function () {
+    var loader = new THREE.FontLoader();
+
+    loader.load('helvetiker_regular.typeface.json', function (font) {
+
+        var geometry = new THREE.TextGeometry('Player 1 is X\nPlayer 2 is O', {
+            font: font,
+            size: .5,
+            height: 1
+        });
+        var material = new THREE.MeshNormalMaterial();
+        var mesh = new THREE.Mesh(geometry, material);
+        mesh.position.x = -1.5;
+        mesh.position.y = 5;
+        mesh.position.z = -.5;
+        removeableText.push(mesh);
+        scene.add(mesh);
+
+        var geometryPlay = new THREE.TextGeometry('Play', {
+            font: font,
+            size: 1,
+            height: 1
+        });
+        var materialPlay = new THREE.MeshNormalMaterial();
+        var meshPlay = new THREE.Mesh(geometryPlay, materialPlay);
+        meshPlay.position.x = -1.5;
+        meshPlay.position.y = -5;
+        meshPlay.position.z = -.5;
+        meshPlay.name = 'play';
+        removeableText.push(meshPlay);
+        groupPlay.add(meshPlay);
+    });
+}
+
+var play = false;
 
 function init() {
+    Instructions();
     LoadBoard();
     LoadInteractables();
 };
 
 scene.add(groupClickables);
+scene.add(groupPlay);
 //the position of the camera in the world space
 camera.position.z = 10;
 
@@ -106,7 +146,6 @@ scene.add(directionalLight);
 var update = function () {
     if (locationClick.length > 0)
         game.CheckForwin();
-
 };
 
 

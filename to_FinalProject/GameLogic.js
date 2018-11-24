@@ -7,6 +7,7 @@ class GameLogic {
         this.CheckForwin = function () {
 
             if (!this.wonX && !this.wonO && !this.tie) {
+                //check for x win
                 if (locationClick[0].clickedX && locationClick[1].clickedX && locationClick[2].clickedX ||
                     locationClick[3].clickedX && locationClick[4].clickedX && locationClick[5].clickedX ||
                     locationClick[6].clickedX && locationClick[7].clickedX && locationClick[8].clickedX ||
@@ -15,8 +16,10 @@ class GameLogic {
                     locationClick[6].clickedX && locationClick[3].clickedX && locationClick[0].clickedX ||
                     locationClick[7].clickedX && locationClick[4].clickedX && locationClick[1].clickedX ||
                     locationClick[8].clickedX && locationClick[5].clickedX && locationClick[2].clickedX) {
+
                     this.wonX = true;
                 }
+                //check for o win
                 else if (locationClick[0].clickedO && locationClick[1].clickedO && locationClick[2].clickedO ||
                     locationClick[3].clickedO && locationClick[4].clickedO && locationClick[5].clickedO ||
                     locationClick[6].clickedO && locationClick[7].clickedO && locationClick[8].clickedO ||
@@ -25,17 +28,20 @@ class GameLogic {
                     locationClick[6].clickedO && locationClick[3].clickedO && locationClick[0].clickedO ||
                     locationClick[7].clickedO && locationClick[4].clickedO && locationClick[1].clickedO ||
                     locationClick[8].clickedO && locationClick[5].clickedO && locationClick[2].clickedO) {
-                    console.log("Win O");
+
                     this.wonO = true;
                 }
+                    //check for tie
                 else if (locationClick[0].clicked && locationClick[1].clicked && locationClick[2].clicked &&
                     locationClick[3].clicked && locationClick[4].clicked && locationClick[5].clicked &&
                     locationClick[6].clicked && locationClick[7].clicked && locationClick[8].clicked && !this.wonO && !this.wonX) {
+
                     this.tie = true;
                 }
             }
+            //display if x has won
             else if (this.wonX) {
-
+                play = false;
                 var loader = new THREE.FontLoader();
 
                 loader.load('helvetiker_regular.typeface.json', function (font) {
@@ -53,8 +59,9 @@ class GameLogic {
                     scene.add(mesh);
                 });
             }
+                //display if o has won
             else if (this.wonO) {
-
+                play = false;
                 var loader = new THREE.FontLoader();
 
                 loader.load('helvetiker_regular.typeface.json', function (font) {
@@ -72,8 +79,9 @@ class GameLogic {
                     scene.add(mesh);
                 });
             }
+                //display if players have tied
             else if (this.tie) {
-
+                play = false;
                 var loader = new THREE.FontLoader();
 
                 loader.load('helvetiker_regular.typeface.json', function (font) {
@@ -90,6 +98,7 @@ class GameLogic {
                     mesh.position.z = -.5;
                     scene.add(mesh);
                 });
+
             }
         }
 
