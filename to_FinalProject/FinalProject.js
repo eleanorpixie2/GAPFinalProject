@@ -144,13 +144,17 @@ scene.add(directionalLight);
 
 //game logic
 var update = function () {
-    if (locationClick.length > 0)
+    if (locationClick.length > 0 && !game.tie && !game.wonO && !game.wonX)
         game.CheckForwin();
+    else if (!game.displayedText) {
+        game.CheckForwin();
+    }
 };
 
 
 //draw elements
 var render = function () {
+    renderer.autoClear = true; 
     //update raycaster with mouse movement  
     raycaster.setFromCamera(mouse, camera);
     // calculate objects intersecting the picking ray

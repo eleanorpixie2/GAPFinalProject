@@ -4,8 +4,8 @@ class GameLogic {
         this.wonX = false;
         this.wonO = false;
         this.tie = false;
+        this.displayedText = false;
         this.CheckForwin = function () {
-
             if (!this.wonX && !this.wonO && !this.tie) {
                 //check for x win
                 if (locationClick[0].clickedX && locationClick[1].clickedX && locationClick[2].clickedX ||
@@ -43,7 +43,6 @@ class GameLogic {
             else if (this.wonX) {
                 play = false;
                 var loader = new THREE.FontLoader();
-
                 loader.load('helvetiker_regular.typeface.json', function (font) {
 
                     var geometry = new THREE.TextGeometry('X has won!', {
@@ -58,12 +57,12 @@ class GameLogic {
                     mesh.position.z = -.5;
                     scene.add(mesh);
                 });
+                this.displayedText = true;
             }
                 //display if o has won
             else if (this.wonO) {
                 play = false;
                 var loader = new THREE.FontLoader();
-
                 loader.load('helvetiker_regular.typeface.json', function (font) {
 
                     var geometry = new THREE.TextGeometry('O has won!', {
@@ -78,12 +77,12 @@ class GameLogic {
                     mesh.position.z = -.5;
                     scene.add(mesh);
                 });
+                this.displayedText = true;
             }
                 //display if players have tied
             else if (this.tie) {
                 play = false;
                 var loader = new THREE.FontLoader();
-
                 loader.load('helvetiker_regular.typeface.json', function (font) {
 
                     var geometry = new THREE.TextGeometry('You have tied!', {
@@ -98,7 +97,7 @@ class GameLogic {
                     mesh.position.z = -.5;
                     scene.add(mesh);
                 });
-
+                this.displayedText = true;
             }
         }
 
