@@ -63,13 +63,29 @@ var LoadInteractables = function ()
                 CubePos: cube.mesh.position,
                 CubeCli: cube.clicked,
                 CubeCliO: cube.clickedO,
-                CubeCliX: cube.clickedX
+                CubeCliX: cube.clickedX,
+                CubeGeo: cube.geometry
             };
             //console.log(obj);
             locationClick.push(obj);
             groupClickables.add(cube.mesh);
         }
     }
+};
+
+var ResetInteractables = function ()
+//Center, center click event cube
+{
+    while (locationClick.length) {
+        locationClick.pop();
+        groupClickables.children.pop();
+    }
+    game.displayedText = false;
+    game.wonO = false;
+    game.wonX = false;
+    game.tie = false;
+    index = 0;
+    LoadInteractables();
 };
 
 var groupPlay = new THREE.Group();
@@ -159,7 +175,7 @@ var render = function () {
     raycaster.setFromCamera(mouse, camera);
     // calculate objects intersecting the picking ray
     var intersects = raycaster.intersectObjects(groupClickables.children);
-    //count and look after all objects in the diamonds group
+    //count and look after all objects in the cubes group
     if (intersects.length > 0) {
         if (INTERSECTED != intersects[0].object) {
             if (INTERSECTED) INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);

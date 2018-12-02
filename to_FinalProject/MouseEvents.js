@@ -61,13 +61,11 @@ class MouseEvents
                         }
                         else if (object.type === 'Group')
                         {
-                            if (object.length == 1) {
-                                object.remove(object.children[0]);
-                            }
                             scene.remove(object);
                         }
                     }
                     LoadBoard();
+                    ResetInteractables();
                     scene.add(groupClickables);
                     play = true;
 
