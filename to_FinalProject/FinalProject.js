@@ -18,7 +18,18 @@ controls = new THREE.OrbitControls(camera, renderer.domElement);
 
 var groupClickables = new THREE.Group();
 
+var choosing = false;
+var choosingStyle = false;
+var menus = false;
+var shownMove = false;
+var shownInstruct = false;
+var humanFirst = false;
+var computerFirst = false;
+var multiPlayer = false;
+var humanTurn = false;
+
 var game = new GameLogic();
+var AI = new AILogic();
 
 var LoadBoard = function () {
     //center row, center column box
@@ -54,11 +65,14 @@ var locationClick = [];
 var LoadInteractables = function ()
 //Center, center click event cube
 {
+    var i = 0;
     for (var y = -2.3; y < 3; y += 2.3)
     {
         for (var x = -2.5; x < 3; x += 2.5)
         {
             var cube = new Cube(x, y, scene);
+            cube.name = i;
+            i++;
             var obj = {
                 CubePos: cube.mesh.position,
                 CubeCli: cube.clicked,
@@ -76,6 +90,7 @@ var LoadInteractables = function ()
 var ResetInteractables = function ()
 //Center, center click event cube
 {
+    renderer.clear();
     while (locationClick.length) {
         locationClick.pop();
         groupClickables.children.pop();
@@ -85,12 +100,26 @@ var ResetInteractables = function ()
     game.wonX = false;
     game.tie = false;
     index = 0;
+    if (computerFirst) {
+        humanTurn = false;
+    }
+    else {
+        humanTurn = true;
+    }
     LoadInteractables();
 };
 
+var CheckGeometry = function () {
+    for (var i = 0; i < groupClickables.children.length; i++) {
+        if (groupClickables.children[i].clickedO) {
+            console.log(groupClickables.children[i].geometry);
+        }
+    }
+}
 var groupPlay = new THREE.Group();
 var removeableText = [];
 var Instructions = function () {
+    displayed = true;
     var loader = new THREE.FontLoader();
 
     loader.load('helvetiker_regular.typeface.json', function (font) {
@@ -107,7 +136,9 @@ var Instructions = function () {
         mesh.position.z = -.5;
         removeableText.push(mesh);
         scene.add(mesh);
-
+        while (groupPlay.children.length) {
+            groupPlay.children.pop();
+        }
         var geometryPlay = new THREE.TextGeometry('Play', {
             font: font,
             size: 1,
@@ -122,12 +153,16 @@ var Instructions = function () {
         removeableText.push(meshPlay);
         groupPlay.add(meshPlay);
     });
-}
+    scene.add(groupPlay);
+    shownInstruct = true;
+};
 
 var play = false;
-
+var displayed = true;
 function init() {
-    Instructions();
+    menus = true;
+    choosingStyle = true;
+        AI.DecidePlayStyle();
     LoadBoard();
     LoadInteractables();
 };
@@ -139,27 +174,33 @@ camera.position.z = 10;
 
 var raycaster = new THREE.Raycaster(), INTERSECTED;
 var mouse = new THREE.Vector2();
-var replaceLocation;
-var replace;
 var index = 0;
-var hasPlayedInSpot;
 
 
 //lighting for the scene
-//light gray
-var ambientLight = new THREE.AmbientLight(0xD3D3D3, .5);
-//cyan
-var pointLight = new THREE.PointLight(0x00ffff, 3, 80);
-//light red
-var directionalLight = new THREE.DirectionalLight(0xB22222, .3);
-directionalLight.position.set(0, 3, 50);
-//add lighting to the scene
-scene.add(ambientLight);
-scene.add(pointLight);
-scene.add(directionalLight);
+{
+    //light gray
+    var ambientLight = new THREE.AmbientLight(0xD3D3D3, .5);
+    //cyan
+    var pointLight = new THREE.PointLight(0x00ffff, 3, 80);
+    //light red
+    var directionalLight = new THREE.DirectionalLight(0xB22222, .3);
+    directionalLight.position.set(0, 3, 50);
+    //add lighting to the scene
+    scene.add(ambientLight);
+    scene.add(pointLight);
+    scene.add(directionalLight);
+}
 
 //game logic
 var update = function () {
+    if (choosing && !choosingStyle && !displayed)
+        AI.DecideFirstPlayer();
+    else if (!choosing && !choosingStyle && !displayed)
+        Instructions();
+    if (!multiPlayer && play && index<9) {
+        singlePlayer();
+    }
     if (locationClick.length > 0 && !game.tie && !game.wonO && !game.wonX)
         game.CheckForwin();
     else if (!game.displayedText) {
@@ -167,28 +208,24 @@ var update = function () {
     }
 };
 
+var found = false;
+var singlePlayer = function () {
+    if (!humanTurn) {
+        found = false;
+        while (!found) {
+            AI.ComputerTurn();
+        }
+        index++;
+        humanTurn = true;
+    }
+}
 
 //draw elements
 var render = function () {
     renderer.autoClear = true; 
+    renderer.render(scene, camera);
     //update raycaster with mouse movement  
     raycaster.setFromCamera(mouse, camera);
-    // calculate objects intersecting the picking ray
-    var intersects = raycaster.intersectObjects(groupClickables.children);
-    //count and look after all objects in the cubes group
-    if (intersects.length > 0) {
-        if (INTERSECTED != intersects[0].object) {
-            if (INTERSECTED) INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
-            INTERSECTED = intersects[0].object;
-            INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
-            replace = intersects[0].object;
-            replaceLocation = intersects[0].object.position;
-        }
-    } else {
-        if (INTERSECTED) INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
-        INTERSECTED = null;
-    }
-    renderer.render(scene, camera);
 };
 
 
@@ -204,3 +241,74 @@ var gameLoop = function () {
 
 init();
 gameLoop();
+
+var clearScreen = function () {
+    renderer.clear();
+    for (let i = scene.children.length - 1; i >= 0; i--) {
+        const object = scene.children[i];
+        if (object.type === 'Mesh') {
+            object.geometry.dispose();
+            object.material.dispose();
+            scene.remove(object);
+        }
+        else if (object.type === 'Group') {
+            scene.remove(object);
+        }
+    }
+    LoadBoard();
+    ResetInteractables();
+    scene.add(groupClickables);
+};
+
+var choice = function () {
+    if (!choosing && !choosingStyle) {
+        var intersects = raycaster.intersectObjects(groupPlay.children);
+        if (intersects.length > 0 && shownInstruct) {
+            clearScreen();
+            menus = false;
+            play = true;
+
+        }
+    }
+    else if (choosing && !choosingStyle) {
+
+        var intersects = raycaster.intersectObjects(groupPlay.children);
+
+        if (intersects.length > 0 && shownMove) {
+            if (intersects[0].object == groupPlay.children[0]) {
+                humanFirst = true;
+                humanTurn = true;
+            }
+            else {
+                computerFirst = true;
+            }
+            clearScreen();
+            displayed = false;
+            choosingStyle = false;
+            choosing = false;
+
+        }
+    }
+    else if (!choosing && choosingStyle) {
+
+        var intersects = raycaster.intersectObjects(groupPlay.children);
+
+        if (intersects.length > 0) {
+            if (intersects[0].object == groupPlay.children[0]) {
+                choosingStyle = false;
+                choosing = true;
+            }
+            else {
+                choosingStyle = false;
+                choosing = false;
+                multiPlayer = true;
+            }
+            clearScreen();
+            displayed = false;
+
+
+        }
+    };
+
+
+}

@@ -73,7 +73,7 @@ class GameLogic {
                     groupPlay.add(meshPlay);
                     scene.add(groupPlay)
                 });
-
+                menus = true;
                 this.displayedText = true;
             }
                 //display if o has won
@@ -110,6 +110,7 @@ class GameLogic {
                     groupPlay.add(meshPlay);
                     scene.add(groupPlay)
                 });
+                menus = true;
                 this.displayedText = true;
             }
                 //display if players have tied
@@ -146,6 +147,7 @@ class GameLogic {
                     groupPlay.add(meshPlay);
                     scene.add(groupPlay)
                 });
+                menus = true;
                 this.displayedText = true;
             }
         }
