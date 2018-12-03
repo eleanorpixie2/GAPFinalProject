@@ -8,17 +8,18 @@ class GameLogic {
         this.CheckForwin = function () {
             if (!this.wonX && !this.wonO && !this.tie) {
                 //check for x win
-                if (locationClick[0].clickedX && locationClick[1].clickedX && locationClick[2].clickedX ||
-                    locationClick[3].clickedX && locationClick[4].clickedX && locationClick[5].clickedX ||
-                    locationClick[6].clickedX && locationClick[7].clickedX && locationClick[8].clickedX ||
-                    locationClick[6].clickedX && locationClick[4].clickedX && locationClick[2].clickedX ||
-                    locationClick[0].clickedX && locationClick[4].clickedX && locationClick[8].clickedX ||
-                    locationClick[6].clickedX && locationClick[3].clickedX && locationClick[0].clickedX ||
-                    locationClick[7].clickedX && locationClick[4].clickedX && locationClick[1].clickedX ||
-                    locationClick[8].clickedX && locationClick[5].clickedX && locationClick[2].clickedX) {
+                if (locationClick[0].clickedX && locationClick[1].clickedX && locationClick[2].clickedX ||//bottom row
+                    locationClick[3].clickedX && locationClick[4].clickedX && locationClick[5].clickedX ||//center row
+                    locationClick[6].clickedX && locationClick[7].clickedX && locationClick[8].clickedX ||//top row
+                    locationClick[6].clickedX && locationClick[4].clickedX && locationClick[2].clickedX ||//left diagnol
+                    locationClick[0].clickedX && locationClick[4].clickedX && locationClick[8].clickedX ||//right diagnol
+                    locationClick[6].clickedX && locationClick[3].clickedX && locationClick[0].clickedX ||//left column
+                    locationClick[7].clickedX && locationClick[4].clickedX && locationClick[1].clickedX ||//center column
+                    locationClick[8].clickedX && locationClick[5].clickedX && locationClick[2].clickedX) {//right column
 
                     this.wonX = true;
                 }
+
                 //check for o win
                 else if (locationClick[0].clickedO && locationClick[1].clickedO && locationClick[2].clickedO ||
                     locationClick[3].clickedO && locationClick[4].clickedO && locationClick[5].clickedO ||
@@ -152,6 +153,95 @@ class GameLogic {
             }
         }
 
+        this.CheckTwoPositionsO = function (one, two) {
+            //right parameters
+            if (locationClick[one].clickedO && locationClick[two].clickedO) {
+                if (one == 1 && two == 2 ||
+                    one == 4 && two == 5 ||
+                    one == 7 && two == 8) {
+
+                    return one - 1;
+                }
+                else if (one == 3 && two == 0 ||
+                    one == 4 && two == 1 ||
+                    one == 5 && two == 2) {
+                    return one + 3;
+                }
+                else if (one == 4 && two == 2) {
+                    return one + 2
+                }
+                else if (one == 4 && two == 8) {
+                    return one - 4;
+                }
+                //left parameters
+                else {
+                    if (one == 0 && two == 1 ||
+                        one == 3 && two == 4 ||
+                        one == 6 && two == 7) {
+
+                        return two + 1;
+                    }
+                    else if (one == 6 && two == 3 ||
+                        one == 7 && two == 4 ||
+                        one == 8 && two == 5) {
+                        return one - 3;
+                    }
+                    else if (one == 6 && two == 4) {
+                        return one - 2
+                    }
+                    else if (one == 0 && two == 4) {
+                        return one + 4;
+                    }
+
+                }
+
+            }
+        };
+
+        this.CheckTwoPositionsX = function (one, two) {
+            //right parameters
+            if (locationClick[one].clickedX && locationClick[two].clickedX) {
+                if (one == 1 && two == 2 ||
+                    one == 4 && two == 5 ||
+                    one == 7 && two == 8) {
+
+                    return one - 1;
+                }
+                else if (one == 3 && two == 0 ||
+                    one == 4 && two == 1 ||
+                    one == 5 && two == 2) {
+                    return one + 3;
+                }
+                else if (one == 4 && two == 2) {
+                    return one + 2
+                }
+                else if (one == 4 && two == 8) {
+                    return one - 4;
+                }
+                //left parameters
+                else {
+                    if (one == 0 && two == 1 ||
+                        one == 3 && two == 4 ||
+                        one == 6 && two == 7) {
+
+                        return two + 1;
+                    }
+                    else if (one == 6 && two == 3 ||
+                        one == 7 && two == 4 ||
+                        one == 8 && two == 5) {
+                        return one - 3;
+                    }
+                    else if (one == 6 && two == 4) {
+                        return one - 2
+                    }
+                    else if (one == 0 && two == 4) {
+                        return one + 4;
+                    }
+
+                }
+
+            }
+        };
         
     }
 }

@@ -9,6 +9,7 @@ class Cube
         this.clicked = false;
         this.clickedO = false;
         this.clickedX = false;
+        this.checked = false;
 
         this.mesh.position.x = x;
         this.mesh.position.y = y;
