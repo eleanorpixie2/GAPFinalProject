@@ -56,7 +56,24 @@ class GameLogic {
                     mesh.position.y = 4;
                     mesh.position.z = -.5;
                     scene.add(mesh);
+
+                    var geometryPlay = new THREE.TextGeometry('Replay', {
+                        font: font,
+                        size: 1,
+                        height: 1
+                    });
+                    var materialPlay = new THREE.MeshNormalMaterial();
+                    var meshPlay = new THREE.Mesh(geometryPlay, materialPlay);
+                    meshPlay.position.x = -2;
+                    meshPlay.position.y = -5;
+                    meshPlay.position.z = -.5;
+                    meshPlay.name = 'replay';
+                    removeableText.push(meshPlay);
+                    groupPlay.remove(groupPlay.children[0]);
+                    groupPlay.add(meshPlay);
+                    scene.add(groupPlay)
                 });
+                menus = true;
                 this.displayedText = true;
             }
                 //display if o has won
@@ -76,7 +93,24 @@ class GameLogic {
                     mesh.position.y = 4;
                     mesh.position.z = -.5;
                     scene.add(mesh);
+
+                    var geometryPlay = new THREE.TextGeometry('Replay', {
+                        font: font,
+                        size: 1,
+                        height: 1
+                    });
+                    var materialPlay = new THREE.MeshNormalMaterial();
+                    var meshPlay = new THREE.Mesh(geometryPlay, materialPlay);
+                    meshPlay.position.x = -2;
+                    meshPlay.position.y = -5;
+                    meshPlay.position.z = -.5;
+                    meshPlay.name = 'replay';
+                    removeableText.push(meshPlay);
+                    groupPlay.remove(groupPlay.children[0]);
+                    groupPlay.add(meshPlay);
+                    scene.add(groupPlay)
                 });
+                menus = true;
                 this.displayedText = true;
             }
                 //display if players have tied
@@ -92,11 +126,28 @@ class GameLogic {
                     });
                     var material = new THREE.MeshNormalMaterial();
                     var mesh = new THREE.Mesh(geometry, material);
-                    mesh.position.x = -4;
+                    mesh.position.x = -4.5;
                     mesh.position.y = 4;
                     mesh.position.z = -.5;
                     scene.add(mesh);
+
+                    var geometryPlay = new THREE.TextGeometry('Replay', {
+                        font: font,
+                        size: 1,
+                        height: 1
+                    });
+                    var materialPlay = new THREE.MeshNormalMaterial();
+                    var meshPlay = new THREE.Mesh(geometryPlay, materialPlay);
+                    meshPlay.position.x = -2;
+                    meshPlay.position.y = -5;
+                    meshPlay.position.z = -.5;
+                    meshPlay.name = 'replay';
+                    removeableText.push(meshPlay);
+                    groupPlay.remove(groupPlay.children[0]);
+                    groupPlay.add(meshPlay);
+                    scene.add(groupPlay)
                 });
+                menus = true;
                 this.displayedText = true;
             }
         }
