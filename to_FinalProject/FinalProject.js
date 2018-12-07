@@ -109,13 +109,7 @@ var ResetInteractables = function ()
     LoadInteractables();
 };
 
-var CheckGeometry = function () {
-    for (var i = 0; i < groupClickables.children.length; i++) {
-        if (groupClickables.children[i].clickedO) {
-            console.log(groupClickables.children[i].geometry);
-        }
-    }
-}
+
 var groupPlay = new THREE.Group();
 var removeableText = [];
 var Instructions = function () {

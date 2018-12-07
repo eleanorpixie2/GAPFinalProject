@@ -173,32 +173,50 @@ class GameLogic {
                 else if (one == 4 && two == 8) {
                     return one - 4;
                 }
+
+                //center parameters
+                else if (one == 0 && two == 2 ||
+                    one == 3 && two == 5 ||
+                    one == 6 && two == 8) {
+
+                    return one + 1;
+                }
+                else if (one == 6 && two == 0 ||
+                    one == 7 && two == 1 ||
+                    one == 8 && two == 2) {
+                    return two + 3;
+                }
+                else if (one == 6 && two == 2) {
+                    return one - 2
+                }
+                else if (one == 0 && two == 8) {
+                    return one + 4;
+                }
+
                 //left parameters
-                else {
-                    if (one == 0 && two == 1 ||
-                        one == 3 && two == 4 ||
-                        one == 6 && two == 7) {
+                else if (one == 0 && two == 1 ||
+                    one == 3 && two == 4 ||
+                    one == 6 && two == 7) {
 
-                        return two + 1;
-                    }
-                    else if (one == 6 && two == 3 ||
-                        one == 7 && two == 4 ||
-                        one == 8 && two == 5) {
-                        return one - 3;
-                    }
-                    else if (one == 6 && two == 4) {
-                        return one - 2
-                    }
-                    else if (one == 0 && two == 4) {
-                        return one + 4;
-                    }
-
+                    return two + 1;
+                }
+                else if (one == 6 && two == 3 ||
+                    one == 7 && two == 4 ||
+                    one == 8 && two == 5) {
+                    return two - 3;
+                }
+                else if (one == 6 && two == 4) {
+                    return two - 2
+                }
+                else if (one == 0 && two == 4) {
+                    return two + 4;
                 }
 
             }
         };
 
         this.CheckTwoPositionsX = function (one, two) {
+
             //right parameters
             if (locationClick[one].clickedX && locationClick[two].clickedX) {
                 if (one == 1 && two == 2 ||
@@ -218,27 +236,46 @@ class GameLogic {
                 else if (one == 4 && two == 8) {
                     return one - 4;
                 }
-                //left parameters
-                else {
-                    if (one == 0 && two == 1 ||
-                        one == 3 && two == 4 ||
-                        one == 6 && two == 7) {
 
-                        return two + 1;
-                    }
-                    else if (one == 6 && two == 3 ||
-                        one == 7 && two == 4 ||
-                        one == 8 && two == 5) {
-                        return one - 3;
-                    }
-                    else if (one == 6 && two == 4) {
-                        return one - 2
-                    }
-                    else if (one == 0 && two == 4) {
-                        return one + 4;
-                    }
+                //center parameters
+                else if (one == 0 && two == 2 ||
+                    one == 3 && two == 5 ||
+                    one == 6 && two == 8) {
 
+                    return one + 1;
                 }
+                else if (one == 6 && two == 0 ||
+                    one == 7 && two == 1 ||
+                    one == 8 && two == 2) {
+                    return two + 3;
+                }
+                else if (one == 6 && two == 2) {
+                    return one - 2
+                }
+                else if (one == 0 && two == 8) {
+                    return one + 4;
+                }
+
+                //left parameters
+                else if (one == 0 && two == 1 ||
+                    one == 3 && two == 4 ||
+                    one == 6 && two == 7) {
+
+                    return two + 1;
+                }
+                else if (one == 6 && two == 3 ||
+                    one == 7 && two == 4 ||
+                    one == 8 && two == 5) {
+                    return two - 3;
+                }
+                else if (one == 6 && two == 4) {
+                    return two - 2
+                }
+                else if (one == 0 && two == 4) {
+                    return two + 4;
+                }
+
+
 
             }
         };

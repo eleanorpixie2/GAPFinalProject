@@ -21,7 +21,6 @@ class AILogic {
                             find = null;
                         }
                         else {
-                            console.log(find);
                             break;
                         }
                     }
@@ -32,28 +31,20 @@ class AILogic {
                         find = locationClick.find(function (element) {
                             return element == locationClick[game.CheckTwoPositionsO(i + 1, i + 2)];
                         });
-                        if (find != null) {
-                            if (find.CubeCheck) {
-                                find = null;
-                            }
-                        }
+
                         if (find == null) {
                             find = locationClick.find(function (element) {
                                 return element == locationClick[game.CheckTwoPositionsO(i + 1, i + 2)];
                             });
-                            console.log("second");
                         }
-                        //console.log(find);
                         if (find != null) {
                             if (find.clicked || find.CubeCheck) {
                                 find = null;
                             }
                             else {
-                                find.CubeCheck = true;
                                 break;
                             }
                         }
-                            
                     }
                 }
                 
@@ -68,10 +59,8 @@ class AILogic {
                 if (find != null) {
 
                     if (!find.clicked) {
-                        console.log(found);
                         find.clicked = true;
                         find.clickedX = true;
-                        console.log(find.CubeCheck);
                         var loader = new THREE.FontLoader();
 
                         loader.load('helvetiker_regular.typeface.json', function (font) {
@@ -96,22 +85,44 @@ class AILogic {
 
                     //check for computer win
                     for (var i = 0; i < locationClick.length; i += 3) {
-                        find = locationClick[game.CheckTwoPositionsO(i, i + 1)];
+                        find = locationClick.find(function (element) {
+                            return element == locationClick[game.CheckTwoPositionsX(i + 1, i + 2)];
+                        });
+
                         if (find == null) {
-                            find = locationClick[game.CheckTwoPositionsO(i + 1, i + 2)];
+                            find = locationClick.find(function (element) {
+                                return element == locationClick[game.CheckTwoPositionsX(i + 1, i + 2)];
+                            });
                         }
-                        if (find != null)
-                            break;
+                        if (find != null) {
+                            if (find.clicked || find.CubeCheck) {
+                                find = null;
+                            }
+                            else {
+                                break;
+                            }
+                        }
                     }
                     //check for player win
                     if (find == null) {
                         for (var i = 0; i < locationClick.length; i += 3) {
-                            find = locationClick[game.CheckTwoPositionsX(i, i + 1)];
+                            find = locationClick.find(function (element) {
+                                return element == locationClick[game.CheckTwoPositionsO(i + 1, i + 2)];
+                            });
+
                             if (find == null) {
-                                find = locationClick[game.CheckTwoPositionsX(i + 1, i + 2)];
+                                find = locationClick.find(function (element) {
+                                    return element == locationClick[game.CheckTwoPositionsO(i + 1, i + 2)];
+                                });
                             }
-                            if (find != null)
-                                break;
+                            if (find != null) {
+                                if (find.clicked || find.CubeCheck) {
+                                    find = null;
+                                }
+                                else {
+                                    break;
+                                }
+                            }
                         }
                     }
                     //otherwise move to an open spot
