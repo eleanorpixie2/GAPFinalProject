@@ -29,7 +29,7 @@ var multiPlayer = false;
 var humanTurn = false;
 
 var game = new GameLogic();
-var AI = new AILogic();
+var AI = new AILogic(game);
 
 var LoadBoard = function () {
     //center row, center column box
@@ -78,7 +78,7 @@ var LoadInteractables = function ()
                 CubeCli: cube.clicked,
                 CubeCliO: cube.clickedO,
                 CubeCliX: cube.clickedX,
-                CubeGeo: cube.geometry
+                CubeCheck: cube.checked
             };
             //console.log(obj);
             locationClick.push(obj);
@@ -109,13 +109,7 @@ var ResetInteractables = function ()
     LoadInteractables();
 };
 
-var CheckGeometry = function () {
-    for (var i = 0; i < groupClickables.children.length; i++) {
-        if (groupClickables.children[i].clickedO) {
-            console.log(groupClickables.children[i].geometry);
-        }
-    }
-}
+
 var groupPlay = new THREE.Group();
 var removeableText = [];
 var Instructions = function () {
@@ -198,14 +192,15 @@ var update = function () {
         AI.DecideFirstPlayer();
     else if (!choosing && !choosingStyle && !displayed)
         Instructions();
-    if (!multiPlayer && play && index<9) {
-        singlePlayer();
-    }
     if (locationClick.length > 0 && !game.tie && !game.wonO && !game.wonX)
         game.CheckForwin();
     else if (!game.displayedText) {
         game.CheckForwin();
     }
+    if (!multiPlayer && play && index<9) {
+        singlePlayer();
+    }
+
 };
 
 var found = false;

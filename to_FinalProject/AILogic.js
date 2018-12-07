@@ -1,19 +1,66 @@
 ﻿//code for AI
 
 class AILogic {
-    constructor() {
+    constructor(game) {
         this.ComputerTurn = function () {
+            var find = null;
             if (computerFirst) {
-                var i = Math.floor(Math.random() * 9);
-                var find = locationClick.find(function (element) {
-                    return element.CubePos == groupClickables.children[i].position;
-                });
+                //check for computer win
+                for (var i = 0; i < locationClick.length; i += 3) {
+                    find = locationClick.find(function (element) {
+                        return element == locationClick[game.CheckTwoPositionsX(i + 1, i + 2)];
+                    });
+                    
+                    if (find == null) {
+                        find = locationClick.find(function (element) {
+                            return element == locationClick[game.CheckTwoPositionsX(i + 1, i + 2)];
+                        });
+                    }
+                    if (find != null) {
+                        if (find.clicked || find.CubeCheck) {
+                            find = null;
+                        }
+                        else {
+                            break;
+                        }
+                    }
+                }
+                //check for player win
+                if (find == null) {
+                    for (var i = 0; i < locationClick.length; i += 3) {
+                        find = locationClick.find(function (element) {
+                            return element == locationClick[game.CheckTwoPositionsO(i + 1, i + 2)];
+                        });
+
+                        if (find == null) {
+                            find = locationClick.find(function (element) {
+                                return element == locationClick[game.CheckTwoPositionsO(i + 1, i + 2)];
+                            });
+                        }
+                        if (find != null) {
+                            if (find.clicked || find.CubeCheck) {
+                                find = null;
+                            }
+                            else {
+                                break;
+                            }
+                        }
+                    }
+                }
+                
+                //otherwise move to an open spot
+                if (find == null) {
+                    var i = Math.floor(Math.random() * 9);
+                    find = locationClick.find(function (element) {
+                        return element.CubePos == groupClickables.children[i].position;
+                    });
+                    
+                }
                 if (find != null) {
 
                     if (!find.clicked) {
                         find.clicked = true;
                         find.clickedX = true;
-
                         var loader = new THREE.FontLoader();
 
                         loader.load('helvetiker_regular.typeface.json', function (font) {
@@ -29,15 +76,62 @@ class AILogic {
                         groupClickables.children[i].position.y -= .5;
                         groupClickables.children[i].position.z -= .5;
                         found = true;
+                        return true;
                     }
+                    
                 }
             }
                 if (humanFirst) {
 
-                    var i = Math.floor(Math.random() * 9);
-                    var find = locationClick.find(function (element) {
-                        return element.CubePos == groupClickables.children[i].position;
-                    });
+                    //check for computer win
+                    for (var i = 0; i < locationClick.length; i += 3) {
+                        find = locationClick.find(function (element) {
+                            return element == locationClick[game.CheckTwoPositionsX(i + 1, i + 2)];
+                        });
+
+                        if (find == null) {
+                            find = locationClick.find(function (element) {
+                                return element == locationClick[game.CheckTwoPositionsX(i + 1, i + 2)];
+                            });
+                        }
+                        if (find != null) {
+                            if (find.clicked || find.CubeCheck) {
+                                find = null;
+                            }
+                            else {
+                                break;
+                            }
+                        }
+                    }
+                    //check for player win
+                    if (find == null) {
+                        for (var i = 0; i < locationClick.length; i += 3) {
+                            find = locationClick.find(function (element) {
+                                return element == locationClick[game.CheckTwoPositionsO(i + 1, i + 2)];
+                            });
+
+                            if (find == null) {
+                                find = locationClick.find(function (element) {
+                                    return element == locationClick[game.CheckTwoPositionsO(i + 1, i + 2)];
+                                });
+                            }
+                            if (find != null) {
+                                if (find.clicked || find.CubeCheck) {
+                                    find = null;
+                                }
+                                else {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    //otherwise move to an open spot
+                    if (find == null) {
+                        var i = Math.floor(Math.random() * 9);
+                        find = locationClick.find(function (element) {
+                            return element.CubePos == groupClickables.children[i].position;
+                        });
+                    }
                     if (find != null) {
 
                         if (!find.clicked) {
