@@ -252,11 +252,22 @@ var found = false;
 var singlePlayer = function () {
     if (!humanTurn) {
         found = false;
-        while (!found) {
-            AI.ComputerTurn();
+        //call appropriate function for computer first
+        if (computerFirst) {
+            while (!found) {
+                AI.ComputerTurnFirst();
+            }
+            index++;
+            humanTurn = true;
         }
-        index++;
-        humanTurn = true;
+        //call appropriate function for human first
+        else if (humanFirst) {
+            while (!found) {
+                AI.ComputerTurnSecond();
+            }
+            index++;
+            humanTurn = true;
+        }
     }
 }
 
