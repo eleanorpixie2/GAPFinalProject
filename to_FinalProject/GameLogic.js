@@ -1,10 +1,13 @@
 ﻿//checks for wins and ties
 class GameLogic {
     constructor() {
+        //types of game outcomes
         this.wonX = false;
         this.wonO = false;
         this.tie = false;
+        //check for displayed text
         this.displayedText = false;
+
         this.CheckForwin = function () {
             if (!this.wonX && !this.wonO && !this.tie) {
                 //check for x win
@@ -21,18 +24,19 @@ class GameLogic {
                 }
 
                 //check for o win
-                else if (locationClick[0].clickedO && locationClick[1].clickedO && locationClick[2].clickedO ||
-                    locationClick[3].clickedO && locationClick[4].clickedO && locationClick[5].clickedO ||
-                    locationClick[6].clickedO && locationClick[7].clickedO && locationClick[8].clickedO ||
-                    locationClick[6].clickedO && locationClick[4].clickedO && locationClick[2].clickedO ||
-                    locationClick[0].clickedO && locationClick[4].clickedO && locationClick[8].clickedO ||
-                    locationClick[6].clickedO && locationClick[3].clickedO && locationClick[0].clickedO ||
-                    locationClick[7].clickedO && locationClick[4].clickedO && locationClick[1].clickedO ||
-                    locationClick[8].clickedO && locationClick[5].clickedO && locationClick[2].clickedO) {
+                else if (locationClick[0].clickedO && locationClick[1].clickedO && locationClick[2].clickedO ||//bottom row
+                    locationClick[3].clickedO && locationClick[4].clickedO && locationClick[5].clickedO ||//center row
+                    locationClick[6].clickedO && locationClick[7].clickedO && locationClick[8].clickedO ||//top row
+                    locationClick[6].clickedO && locationClick[4].clickedO && locationClick[2].clickedO ||//left diagonal
+                    locationClick[0].clickedO && locationClick[4].clickedO && locationClick[8].clickedO ||//right diagonal
+                    locationClick[6].clickedO && locationClick[3].clickedO && locationClick[0].clickedO ||//left column
+                    locationClick[7].clickedO && locationClick[4].clickedO && locationClick[1].clickedO ||//center column
+                    locationClick[8].clickedO && locationClick[5].clickedO && locationClick[2].clickedO) {//right column
 
                     this.wonO = true;
                 }
                     //check for tie
+                    // if all have been clicked and no one has won then it is a tie
                 else if (locationClick[0].clicked && locationClick[1].clicked && locationClick[2].clicked &&
                     locationClick[3].clicked && locationClick[4].clicked && locationClick[5].clicked &&
                     locationClick[6].clicked && locationClick[7].clicked && locationClick[8].clicked && !this.wonO && !this.wonX) {
@@ -42,7 +46,9 @@ class GameLogic {
             }
             //display if x has won
             else if (this.wonX) {
+                //stop game
                 play = false;
+                //display text that says x has won
                 var loader = new THREE.FontLoader();
                 loader.load('helvetiker_regular.typeface.json', function (font) {
 
@@ -58,6 +64,7 @@ class GameLogic {
                     mesh.position.z = -.5;
                     scene.add(mesh);
 
+                    //create replay button
                     var geometryPlay = new THREE.TextGeometry('Replay', {
                         font: font,
                         size: 1,
@@ -74,12 +81,16 @@ class GameLogic {
                     groupPlay.add(meshPlay);
                     scene.add(groupPlay)
                 });
+                //set menus to true so that player can go through the menu
                 menus = true;
+                //set that the text has been displayed
                 this.displayedText = true;
             }
                 //display if o has won
             else if (this.wonO) {
+                //stop game
                 play = false;
+                //load text that says O has won
                 var loader = new THREE.FontLoader();
                 loader.load('helvetiker_regular.typeface.json', function (font) {
 
@@ -95,6 +106,7 @@ class GameLogic {
                     mesh.position.z = -.5;
                     scene.add(mesh);
 
+                    //create replay button
                     var geometryPlay = new THREE.TextGeometry('Replay', {
                         font: font,
                         size: 1,
@@ -116,7 +128,9 @@ class GameLogic {
             }
                 //display if players have tied
             else if (this.tie) {
+                //stop game
                 play = false;
+                //load text that says it is a tie
                 var loader = new THREE.FontLoader();
                 loader.load('helvetiker_regular.typeface.json', function (font) {
 
@@ -132,6 +146,7 @@ class GameLogic {
                     mesh.position.z = -.5;
                     scene.add(mesh);
 
+                    //create replay button
                     var geometryPlay = new THREE.TextGeometry('Replay', {
                         font: font,
                         size: 1,
@@ -153,6 +168,7 @@ class GameLogic {
             }
         }
 
+        //check to see if there are 2 consecutive clicked objects of the same type
         this.CheckTwoPositionsO = function (one, two) {
             //right parameters
             if (locationClick[one].clickedO && locationClick[two].clickedO) {
@@ -215,6 +231,7 @@ class GameLogic {
             }
         };
 
+        //check to see if there are to consecutive objects of the same type
         this.CheckTwoPositionsX = function (one, two) {
 
             //right parameters

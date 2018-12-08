@@ -2,15 +2,107 @@
 
 class AILogic {
     constructor(game) {
+        this.locations = [];
         this.ComputerTurn = function () {
             var find = null;
             if (computerFirst) {
                 //check for computer win
                 for (var i = 0; i < locationClick.length; i += 3) {
                     find = locationClick.find(function (element) {
+                        return element == locationClick[game.CheckTwoPositionsX(i, i + 1)];
+                    });
+
+                    if (find == null) {
+                        find = locationClick.find(function (element) {
+                            return element == locationClick[game.CheckTwoPositionsX(i + 1, i + 2)];
+                        });
+                    }
+
+                    if (find == null) {
+                        find = locationClick.find(function (element) {
+                            return element == locationClick[game.CheckTwoPositionsX(i, i + 2)];
+                        });
+                    }
+                    if (find != null) {
+                        if (find.clicked || find.checked) {
+                            find = null;
+                        }
+                        else {
+                            find.checked = true;
+                            break;
+                        }
+                    }
+                }
+                //check for player win
+                if (find == null) {
+                    for (var i = 0; i < locationClick.length; i += 3) {
+                        find = locationClick.find(function (element) {
+                            return element == locationClick[game.CheckTwoPositionsO(i, i + 1)];
+                        });
+
+                        if (find == null) {
+                            find = locationClick.find(function (element) {
+                                return element == locationClick[game.CheckTwoPositionsO(i + 1, i + 2)];
+                            });
+                        }
+
+                        if (find == null) {
+                            find = locationClick.find(function (element) {
+                                return element == locationClick[game.CheckTwoPositionsO(i, i + 2)];
+                            });
+                        }
+                        if (find != null) {
+                            if (find.clicked || find.checked) {
+                                find = null;
+                            }
+                            else {
+                                find.checked = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                //otherwise move to an open spot
+                if (find == null) {
+                    var i = Math.floor(Math.random() * 9);
+                    find = locationClick.find(function (element) {
+                        return element.CubePos == groupClickables.children[i].position;
+                    });
+
+                }
+                if (find != null) {
+
+                    if (!find.clicked && !find.clickedO) {
+                        find.clicked = true;
+                        find.clickedX = true;
+                        var loader = new THREE.FontLoader();
+
+                        loader.load('helvetiker_regular.typeface.json', function (font) {
+
+                            var geometry = new THREE.TextGeometry('X', {
+                                font: font,
+                                size: 1,
+                                height: 1
+                            });
+                            groupClickables.children[i].geometry = geometry;
+                        });
+                        groupClickables.children[i].position.x -= .5;
+                        groupClickables.children[i].position.y -= .5;
+                        groupClickables.children[i].position.z -= .5;
+                        found = true;
+                        return true;
+                    }
+
+                }
+            }
+            if (humanFirst) {
+                //check for computer win
+                for (var i = 0; i < locationClick.length; i += 3) {
+                    find = locationClick.find(function (element) {
                         return element == locationClick[game.CheckTwoPositionsX(i + 1, i + 2)];
                     });
-                    
+
                     if (find == null) {
                         find = locationClick.find(function (element) {
                             return element == locationClick[game.CheckTwoPositionsX(i + 1, i + 2)];
@@ -47,105 +139,27 @@ class AILogic {
                         }
                     }
                 }
-                
                 //otherwise move to an open spot
                 if (find == null) {
                     var i = Math.floor(Math.random() * 9);
                     find = locationClick.find(function (element) {
                         return element.CubePos == groupClickables.children[i].position;
                     });
-                    
                 }
                 if (find != null) {
 
                     if (!find.clicked) {
                         find.clicked = true;
-                        find.clickedX = true;
-                        var loader = new THREE.FontLoader();
+                        find.clickedO = true;
 
-                        loader.load('helvetiker_regular.typeface.json', function (font) {
+                        var geometry = new THREE.CylinderGeometry(.5, .5, .3);
+                        groupClickables.children[i].geometry = geometry;
+                        groupClickables.children[i].rotation.x = Math.PI / 2;
 
-                            var geometry = new THREE.TextGeometry('X', {
-                                font: font,
-                                size: 1,
-                                height: 1
-                            });
-                            groupClickables.children[i].geometry = geometry;
-                        });
-                        groupClickables.children[i].position.x -= .5;
-                        groupClickables.children[i].position.y -= .5;
-                        groupClickables.children[i].position.z -= .5;
                         found = true;
-                        return true;
                     }
-                    
                 }
             }
-                if (humanFirst) {
-
-                    //check for computer win
-                    for (var i = 0; i < locationClick.length; i += 3) {
-                        find = locationClick.find(function (element) {
-                            return element == locationClick[game.CheckTwoPositionsX(i + 1, i + 2)];
-                        });
-
-                        if (find == null) {
-                            find = locationClick.find(function (element) {
-                                return element == locationClick[game.CheckTwoPositionsX(i + 1, i + 2)];
-                            });
-                        }
-                        if (find != null) {
-                            if (find.clicked || find.CubeCheck) {
-                                find = null;
-                            }
-                            else {
-                                break;
-                            }
-                        }
-                    }
-                    //check for player win
-                    if (find == null) {
-                        for (var i = 0; i < locationClick.length; i += 3) {
-                            find = locationClick.find(function (element) {
-                                return element == locationClick[game.CheckTwoPositionsO(i + 1, i + 2)];
-                            });
-
-                            if (find == null) {
-                                find = locationClick.find(function (element) {
-                                    return element == locationClick[game.CheckTwoPositionsO(i + 1, i + 2)];
-                                });
-                            }
-                            if (find != null) {
-                                if (find.clicked || find.CubeCheck) {
-                                    find = null;
-                                }
-                                else {
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    //otherwise move to an open spot
-                    if (find == null) {
-                        var i = Math.floor(Math.random() * 9);
-                        find = locationClick.find(function (element) {
-                            return element.CubePos == groupClickables.children[i].position;
-                        });
-                    }
-                    if (find != null) {
-
-                        if (!find.clicked) {
-                            find.clicked = true;
-                            find.clickedO = true;
-
-                            var geometry = new THREE.CylinderGeometry(.5, .5, .3);
-                            groupClickables.children[i].geometry = geometry;
-                            groupClickables.children[i].rotation.x = Math.PI / 2;
-         
-                            found = true;
-                        }
-                    }
-                }
         };
         this.DecideFirstPlayer = function () {
             displayed = true;
@@ -249,6 +263,6 @@ class AILogic {
 
         };
 
-        
+
     }
 }
